@@ -1,0 +1,46 @@
+# Compiled Output
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.bin
+*.o
+*.a
+
+# Dependency Directories
+/vendor/
+
+# Object Files
+*.o
+*.a
+*.obj
+
+# Logs and Databases
+*.log
+*.sql
+*.sqlite
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor Directories
+.vscode/
+
+# Configuration Files
+.env
+.env.local
+
+# Test Artifacts
+/test/
+/tests/
+/_test/
+
+# Build Scripts/Artifacts
+/scripts/
+/build/
+/dist/
+
+# Miscellaneous
+# Add custom ignores here
