@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -43,9 +44,46 @@ var listCmd = &cobra.Command{
 	},
 }
 
+var deleteCmd = &cobra.Command{
+	Use: "delete",
+	Short: "Delete a specific todo",
+	Args: cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		index, err := strconv.Atoi(args[0])
+		if err != nil {
+			fmt.Println("Please provide a valid index.")
+			return
+		}
+
+		f, _ := os.Open("todos.txt")
+		defer f.Close()
+		scanner := bufio.NewScanner(f)
+		var todos []string
+		for scanner.Scan() {
+			todos = append(todos, scanner.Text())
+		}
+
+		if index <= 0 || index > len(todos) {
+			fmt.Println("Index out of range.")
+			return
+		}
+
+		todos = append(todos[:index-1], todos[index:]...)
+
+		f, _ = os.Create("todos.txt")
+		defer f.Close()
+		for _, todo := range todos {
+			f.WriteString(todo + "\n")
+		}
+
+		fmt.Println("Todo deleted.")
+	},
+}
+
 func main() {
 	rootCmd.AddCommand(todoCmd)
 	rootCmd.AddCommand(listCmd)
+	rootCmd.AddCommand(deleteCmd) 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 	}
